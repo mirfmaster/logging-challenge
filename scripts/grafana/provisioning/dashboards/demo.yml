@@ -1,0 +1,9 @@
+apiVersion: 1
+provider:
+  allowUpdates: true
+  disableDeletion: false
+  name: demo
+  options:
+    foldersFromFileStructure: true
+    path: /etc/grafana/dashboards
+    uploadInterval: 10
