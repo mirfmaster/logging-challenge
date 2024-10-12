@@ -84,3 +84,19 @@ avg by (level)
 | message = "request processed" 
 | unwrap elapsed_ms [1m]))
 ```
+
+filter by pattern
+
+`<_>` is for ignoring
+`{app="nginx"} | logfmt | pattern '<_> - - <_> "<method> <url> <_>" <status> <_> <_> "<user_agent>" <_>`
+
+- aggregate sum grouped by user_agent
+```
+sum by (user_agent) (rate({app="nginx"} | logfmt | pattern `<_> - - <_> "<method> <url> <_>" <status> <_> <_> "<user_agent>" <_>`[1m]))
+```
+
+
+
+## ETC
+- for each 1 sec send 2 request
+`watch -n 0.5 curl "localhost"`
