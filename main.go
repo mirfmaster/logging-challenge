@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -24,7 +25,13 @@ func middleware(next http.Handler) http.Handler {
 			Logger()
 
 		ctx := log.WithContext(r.Context())
+
+		// calculate time elapsed
+		start := time.Now()
 		next.ServeHTTP(w, r.WithContext(ctx))
+		elapsed := time.Since(start)
+
+		log.Info().Float64("elapsed_ms", float64(elapsed.Nanoseconds()/1000000)).Msg("request processed")
 	})
 }
 
